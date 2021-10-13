@@ -31,7 +31,7 @@ def cropOrig(bRect, oimg):
 
     x,y,w,h = bRect
 
-    print(x,y,w,h)
+    print("Horizontal :",x,", Vertical Downwards :",y,", height of image :",w,", width of image :",h)
     pcropedImg = oimg[y:y+h,x:x+w]
 
     x1, y1, w1, h1 = 0, 0, pcropedImg.shape[1], pcropedImg.shape[0]
