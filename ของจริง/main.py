@@ -74,18 +74,18 @@ cnts = imutils.grab_contours(cnts)
 
 for c in cnts:
 
-    x, y, w, h = cv2.boundingRect(c)
-    cv2.rectangle(result, (x, y), (x + w, y + h), (0, 255, 0), 10)
+    x, y, w1, h1 = cv2.boundingRect(c)
+    cv2.rectangle(result, (x, y), (x + w1, y + h1), (0, 255, 0), 10)
 
 
 cv2.imwrite('resultFeet.jpg',result)
 print(x)
 print(y)
-print(w)
-print(h)
+print(w1)
+print(h1)
 
-WF = (w*11.81)/100
-WH = (h*11.81)/100
+WF = (w1/11.81)/10
+WH = (h1/11.81)/10
 print(WF)
 print(WH)
 # cv2.imshow("Scanned", result)
