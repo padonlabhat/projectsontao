@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import mapper
 
-img = cv2.imread('test1.jpg')
+img = cv2.imread('test3.jpg')
 imS= cv2.resize(img, (500, 470))
 cv2.imwrite('output/0img.jpg',imS)
 gray = cv2.cvtColor(imS, cv2.COLOR_BGR2GRAY)
