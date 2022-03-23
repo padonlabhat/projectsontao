@@ -2,7 +2,17 @@ import cv2
 import imutils
 import numpy as np
 
-
+def take_a_photo():
+    cap = cv2.VideoCapture('rtsp://192.168.100.192:8080/h264_pcm.sdp')
+    while True:
+        _, frame = cap.read()
+        cv2.imshow('frame',frame)
+        key = cv2.waitKey(1)
+        if key == ord('c'):
+            cv2.imwrite('capture.png',frame)
+            cv2.destroyAllWindows()
+            break
+# take_a_photo()
 
 pts1 = []
 pts2 = [[0, 0], [2480, 0], [2480, 3508], [0, 3508]]
