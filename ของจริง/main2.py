@@ -3,6 +3,7 @@ import imutils
 import numpy
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 def take_a_photo():
     # cap = cv2.VideoCapture(1)
     cap = cv2.VideoCapture('rtsp://192.168.1.120:8080/h264_pcm.sdp')
@@ -26,7 +27,7 @@ def take_a_photo():
             break
 
 def findA4():
-    img = cv2.resize(cv2.imread('test4.jpg'), (800, 800))
+    img = cv2.resize(cv2.imread('test3pth.jpg'), (800, 800))
     cv2.imshow('img', img)
     cv2.waitKey(0)
 
@@ -62,8 +63,8 @@ def findA4():
     # plt.show()
     cv2.waitKey(0)
 
-    w =620;
-    h = 877;
+    w =2480;
+    h = 3508;
     point0=myPoints[0]
     point1 = myPoints[1]
     point4 = myPoints[4]
@@ -99,68 +100,69 @@ def findA4():
     result = cv2.warpPerspective(img, matrix, (w, h))
     cv2.imshow('img', result)
     cv2.waitKey(0)
+    cv2.imwrite('result_A4.jpg', result)
+
+def findSizeFoot ():
+    A4 = cv2.imread('result_A4.jpg')
+    cv2.imshow('result_A4.jpg', A4)
+    cv2.waitKey(0)
+    mask_a4 = cv2.inRange(A4, numpy.array([150, 150, 150]), numpy.array([255, 255, 255]))
+    cv2.imshow('mask_a4', mask_a4)
+    cv2.waitKey(0)
+    kernel = np.ones((100, 100), np.uint8)
+    mask_a4 = cv2.dilate(mask_a4, kernel, iterations=1)
+    mask_a4 = cv2.erode(mask_a4, kernel, iterations=1)
+    thresh1 = cv2.threshold(mask_a4, 125, 255, cv2.THRESH_BINARY_INV)[1]
+    cv2.imshow('mask_a4', thresh1)
+    cv2.waitKey(0)
+
+    cnts = cv2.findContours(thresh1.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cnts = imutils.grab_contours(cnts)
+
+    for c in cnts:
+
+        x, y, w1, h1 = cv2.boundingRect(c)
+        # cv2.rectangle(A4, (x, y), (x + w1, y + h1), (0, 255, 0), 5)
+
+    cv2.imshow('A4', A4)
+    cv2.waitKey(0)
+    # size A4 = 21.0x29.7 cm ,2480x3508, 620x877 pixel , 1 cm = 29.52 pixel , 1 pixel = 0.03387
+    HF = h1*(21/2480)
+    error=4.5/100
+    HF = HF+(HF*error)
+    print('H1 = ', h1)
+    print('W1 = ', w1)
+    print('HF = ', HF)
+    plt.imshow(A4)
+    plt.show()
+    # [y1: y2, x1: x2]
+    h1 = (3508-h1)+int(h1*3/4)
+
+    print('h1 = ', h1)
+    crop_img = thresh1[0:h1 , : ]
+    plt.imshow(crop_img )
+    plt.show()
+    cnts = cv2.findContours(crop_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cnts = imutils.grab_contours(cnts)
+    for c in cnts:
+
+        x, y, w1, h1 = cv2.boundingRect(c)
+        cv2.rectangle(A4, (x, y), (x + w1, y + h1), (0, 0, 255), 5)
+
+    print('x = ', x)
+    print('y = ', y)
+    print('w1 = ', w1)
+    print('h1 = ', h1)
+
+    WF = w1 * (21 / 2480)
+    error = 0 / 100
+    WF = WF - (WF * error)
+    print('WF = ',WF)
+    plt.imshow(A4)
+    plt.show()
 # take_a_photo()
-# findA4()
+findA4()
+findSizeFoot()
 
 
-# pts1 = []
-# pts2 = [[0, 0], [2480, 0], [2480, 3508], [0, 3508]]
-# def onClick(event, x, y, flags, param):
-#     if event == cv2.EVENT_LBUTTONDOWN:
-#         if len(pts1) < 4:
-#             pts1.append([x, y])
-#             print(pts1)
-# img = cv2.imread('test1.jpg')  #****************************ชื่อรูป**************************
-# imS= cv2.resize(img, (800, 800))
-# cv2.imshow("test1", imS)
-# # cv2.namedWindow('frame')
-# cv2.setMouseCallback('test1', onClick)
-# cv2.waitKey(0)
-#
-# if len(pts1) == 4:
-#
-#     T = cv2.getPerspectiveTransform(np.float32(pts1), np.float32(pts2))
-#
-#     result = cv2.warpPerspective(imS, T, (2480, 3508))
-#     # w = 2480;
-#     # h = 3508;
-#     # pts1 = np.float32([myPoints[2], myPoints[4], myPoints[1], myPoints[0]])
-#     # pts2 = np.float32([[0, 0], [w, 0], [0, h], [w, h]])
-#     # matrix = cv2.getPerspectiveTransform(pts1, pts2)
-#     # result = cv2.warpPerspective(imS, matrix, (w, h))
-#
-# cv2.imshow('frame', result)
-# cv2.waitKey(0)
-# cv2.imwrite('savedImage.jpg', result)
-#
-# gray1 = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
-# blurred1 = cv2.GaussianBlur(gray1, (5, 5), 0)
-# thresh1 = cv2.threshold(blurred1, 150, 255, cv2.THRESH_BINARY)[1]
-#
-# edged1 = cv2.Canny(thresh1, 50, 100)
-# edged1 = cv2.dilate(edged1, None, iterations=1)
-# edged1 = cv2.erode(edged1, None, iterations=1)
-#
-# cnts = cv2.findContours(edged1.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-# cnts = imutils.grab_contours(cnts)
-#
-# for c in cnts:
-#
-#     x, y, w1, h1 = cv2.boundingRect(c)
-#     cv2.rectangle(result, (x, y), (x + w1, y + h1), (0, 255, 0), 10)
-#
-#
-# cv2.imwrite('output/7edgedFeet.jpg',result)
-# result= cv2.resize(result, (800, 800))
-# cv2.imshow('frame', result)
-# cv2.waitKey(0)
-# print(x)
-# print(y)
-# print(w1)
-# print(h1)
-#
-# WF = (w1/11.81)/10
-# WH = (h1/11.81)/10
-# print(WF)
-# print(WH)
 
