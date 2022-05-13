@@ -33,7 +33,7 @@ def take_a_photo():
             break
 
 def findA4():
-    img = cv2.resize(cv2.imread('capture.jpg'), (800, 800))
+    img = cv2.resize(cv2.imread('test1.jpg'), (800, 800))
     cv2.imshow('img', img)
     cv2.waitKey(0)
 
@@ -42,6 +42,8 @@ def findA4():
     mask_a4 = cv2.inRange(img,numpy.array([150,150,150]),numpy.array([255,255,255]))
     cv2.imshow('mask_a4', mask_a4)
     cv2.waitKey(0)
+
+
     kernel = np.ones((10, 10), np.uint8)
     mask_a4 = cv2.dilate(mask_a4, kernel, iterations=1)
     mask_a4 = cv2.erode(mask_a4, kernel, iterations=1)
@@ -183,6 +185,17 @@ def findSizeFoot ():
     print('WF = ',WF)
     plt.imshow(cv2.cvtColor(A4, cv2.COLOR_BGR2RGB))
     plt.show()
-take_a_photo()
+# take_a_photo()
 findA4()
 findSizeFoot()
+
+# vb = 0
+# w1= 0
+# x1=117
+# A4 = cv2.imread('test4.jpg')
+# A4 = cv2.resize(A4, (2480, 3508))
+# # cv2.imshow('result_A4.jpg', A4)
+# # cv2.waitKey(0)
+# mask_a4 = cv2.inRange(A4, numpy.array([x1, x1, x1]), numpy.array([255, 255, 255]))
+# plt.imshow(mask_a4)
+# plt.show()
