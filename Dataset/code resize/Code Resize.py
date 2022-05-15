@@ -1,7 +1,7 @@
 import os
 import cv2
 
-path = 'D:/Dataset/Foot/'
+path = 'D:/GitHub/projectsonteen/Dataset/imgFootBan/'
 dir = os.listdir(path)
 # print(path)
 # print(len(dir))
@@ -12,7 +12,7 @@ for i in dir:
     img = cv2.imread(path + i)
     print(img)
     img = cv2.resize(img,(500,500))
-    cv2.imwrite("D:/Dataset/resizeFoot/"+i,img)
+    cv2.imwrite("D:/GitHub/projectsonteen/Dataset/For train/type foot/images/"+i,img)
 
 # cv2.imshow('image',img)
 # cv2.waitKey(0)
