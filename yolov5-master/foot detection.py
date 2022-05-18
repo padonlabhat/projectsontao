@@ -1,5 +1,6 @@
 import torch
 import cv2
+import os
 
 
 def take_a_photo():
@@ -36,7 +37,28 @@ def detect_from_img():
     cv2.imshow('img', image_rgb)
     cv2.waitKey(0)
 
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='D:/GitHub/projectsonteen/yolov5-master/my models/best.pt')
-take_a_photo()
+
+def readAllfile():
+    path = 'D:/GitHub/projectsonteen/yolov5-master/test/'
+    dir = os.listdir(path)
+    # print(path)
+    # print(len(dir))
+    # print(dir)
+
+    for i in dir:
+        print(path + i)
+        img = cv2.imread(path + i)
+        print(img)
+        results = model(img)
+        results.render()
+        print(results.pandas().xyxy[0])
+        img =results.imgs[0]
+
+        cv2.imwrite("D:/GitHub/projectsonteen/yolov5-master/result test/" + i, img)
+
+
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='D:/GitHub/projectsonteen/yolov5-master/my models/best_typeFoot2222222222.pt')
+# take_a_photo()
 # detect_from_img()
+readAllfile()
 
