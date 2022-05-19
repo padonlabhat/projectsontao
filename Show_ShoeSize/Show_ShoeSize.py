@@ -1,11 +1,8 @@
-adidasM = "-"
-adidasWM = "-"
-nikeM = "-"
-nikeWM = "-"
-
 cm = float(input("centimeter : "))
 
 def nike(cm):
+    nikeM = "-"
+    nikeWM = "-"
     if (cm >= 22) and (cm < 22.25):
         nikeM = "-"
         nikeWM = "5"
@@ -58,6 +55,8 @@ def nike(cm):
     print("Nike Men US : ",nikeM,"\nNike Women US : ",nikeWM)
 
 def adidas(cm):
+    adidasM = "-"
+    adidasWM = "-"
     if (cm >= 22) and (cm < 22.3):
         adidasM = "4"
         adidasWM = "5"
