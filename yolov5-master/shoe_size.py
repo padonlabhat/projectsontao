@@ -1,4 +1,4 @@
-cm = float(input("centimeter : "))
+# cm = float(input("centimeter : "))
 
 def nike(cm):
     nikeM = "-"
@@ -126,5 +126,5 @@ def adidas(cm):
 
     print("Adidas Men US : ",adidasM,"\nAdidas Women US : ",adidasWM)
 
-adidas(cm)
-nike(cm)
+# adidas(cm)
+# nike(cm)
