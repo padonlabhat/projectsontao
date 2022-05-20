@@ -120,10 +120,10 @@ def findSize(path):
     # cv2.imshow('mask_a4', mask_a4)
     # cv2.waitKey(0)
     cv2.imwrite('output/findsize_1mask_a4.jpg', mask_a4)
-    # kernel = np.ones((100, 100), np.uint8)
-    # mask_a4 = cv2.dilate(mask_a4, kernel, iterations=1)
-    # mask_a4 = cv2.erode(mask_a4, kernel, iterations=1)
-    # cv2.imwrite('output/findsize_2kernel.jpg', mask_a4)
+    kernel = np.ones((100, 100), np.uint8)
+    mask_a4 = cv2.dilate(mask_a4, kernel, iterations=1)
+    mask_a4 = cv2.erode(mask_a4, kernel, iterations=1)
+    cv2.imwrite('output/findsize_2kernel.jpg', mask_a4)
     thresh1 = cv2.threshold(mask_a4, 127, 255, cv2.THRESH_BINARY_INV)[1]
     cv2.imwrite('output/findsize_3thresh1.jpg', thresh1)
     # cv2.imshow('mask_a4', thresh1)
@@ -136,40 +136,33 @@ def findSize(path):
     for c in cnts:
 
         x, y, w1, h1 = cv2.boundingRect(c)
-        box = cv2.rectangle(A4.copy(), (x, y), (x + w1, y + h1), (0, 255, 0), 10)
-    cv2.imwrite('output/findsize_4box.jpg', box)
-    for c in cnts:
-        epsilon = 0.001 * cv2.arcLength(c, True)
-        approx = cv2.approxPolyDP(c, epsilon, True)
-        contourSS = cv2.drawContours(A4.copy(), [approx], 0, (0, 255,0), 10)
-        # print(approx)
-    # cv2.imwrite('output/findsize_4contourSS.jpg', contourSS)
-    # plt.imshow(contourSS)
-    # plt.show()
-    myPoints = np.array(approx, dtype=np.int32)
-    # cv2.imshow('A4', A4)
-    # cv2.waitKey(0)
-    # size A4 = 21.0x29.7 cm ,2480x3508, 620x877 pixel , 1 cm = 29.52 pixel , 1 pixel = 0.03387
+
+    box1 = cv2.rectangle(A4.copy(), (x, y), (x + w1, y + h1), (0, 255, 0), 10)
+    cv2.imwrite('output/findsize_4box1.jpg', box1)
+    # for c in cnts:
+    #     epsilon = 0.001 * cv2.arcLength(c, True)
+    #     approx = cv2.approxPolyDP(c, epsilon, True)
+    #     contourSS = cv2.drawContours(A4.copy(), [approx], 0, (0, 255,0), 10)
+    #     # print(approx)
+    # # cv2.imwrite('output/findsize_4contourSS.jpg', contourSS)
+    # # plt.imshow(contourSS)
+    # # plt.show()
+    # myPoints = np.array(approx, dtype=np.int32)
+    # # cv2.imshow('A4', A4)
+    # # cv2.waitKey(0)
+    # size A4 = 21.0x29.7 cm ,2480x3508, 620x877 pixel , 1 cm = 29.52 pixel , 1 pixel = 0.03387 cm
     dB = dist.euclidean((x,y),(x+w1,y))
-    # print('x = ', x)
-    # print('y = ', y)
-    # print('w1 = ', w1)
-    # print('h1 = ', h1)
-    # print('db = ', dB)
-    # cv2.circle(A4, (w1, h1), 5, (0, 255, 64), 100)
-    # cv2.circle(A4, (x, y), 5, (0, 255, 64), 100)
     length = h1*(21/2480)
     error=4.5/100
     length = length+(length*error)
-    # print('H1 = ', h1)
-    # print('W1 = ', w1)
+    length=round(length, 2)
     print('length foot = ', length)
     # plt.imshow(cv2.cvtColor(thresh1, cv2.COLOR_BGR2RGB))
     # plt.show()
     # [y1: y2, x1: x2]
     h1 = (3508-h1)+int(h1*3/4)
 
-    # print('h1 = ', h1)
+
     crop_img = thresh1[0:h1 , : ]
     cv2.imwrite('output/findsize_5crop_img.jpg', crop_img)
     # plt.imshow(crop_img )
@@ -179,9 +172,12 @@ def findSize(path):
     for c in cnts:
 
         x, y, w1, h1 = cv2.boundingRect(c)
-        box = cv2.rectangle(A4.copy(), (x, y), (x + w1, y + h1), (0, 0, 255), 2)
 
-    cv2.imwrite('output/findsize_6box.jpg', box)
+    box2 = cv2.rectangle(A4.copy(), (x, y), (x + w1, y + h1), (0, 0, 255), 10)
+    ALLbox = cv2.rectangle(box1, (x, y), (x + w1, y + h1), (0, 0, 255), 10)
+
+    cv2.imwrite('output/findsize_6box2.jpg', box2)
+    cv2.imwrite('output/findsize_7ALLBOX.jpg', ALLbox)
     # print('x = ', x)
     # print('y = ', y)
     # print('w1 = ', w1)
@@ -190,10 +186,13 @@ def findSize(path):
     width = w1 * (21 / 2480)
     error = 5 / 100
     width = width - (width * error)
+    width = round(width, 2)
     print('width foot  = ',width)
+
     # plt.imshow(cv2.cvtColor(A4, cv2.COLOR_BGR2RGB))
     # plt.show()
-    return length
+
+    return length , width
 # take_a_photo()
 # perspectiveA4()
 # findSize()

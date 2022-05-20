@@ -1,5 +1,6 @@
 # cm = float(input("centimeter : "))
-
+import cv2
+import matplotlib.pyplot as plt
 def nike(cm):
     nikeM = "-"
     nikeWM = "-"
@@ -53,7 +54,7 @@ def nike(cm):
         nikeWM = "-"
 
     print("Nike Men US : ",nikeM,"\nNike Women US : ",nikeWM)
-
+    return nikeM,nikeWM
 def adidas(cm):
     adidasM = "-"
     adidasWM = "-"
@@ -125,6 +126,30 @@ def adidas(cm):
         adidasWM = "15.5"
 
     print("Adidas Men US : ",adidasM,"\nAdidas Women US : ",adidasWM)
+    return adidasM,adidasWM
 
-# adidas(cm)
-# nike(cm)
+def showsize(footSize):
+    length, width = footSize
+    nikeM,nikeWM = nike(length)
+    adidasM, adidasWM = adidas(length)
+    img = cv2.imread('output/findsize_7ALLBOX.jpg')
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    colortext = (0,0,255)
+    cv2.putText(img=img, text="length : "+str(length)+' CM', org=(150, 250), fontFace=cv2.FONT_HERSHEY_TRIPLEX, fontScale=5,
+                color=colortext, thickness=3)
+    cv2.putText(img=img, text="width : "+str(width)+' CM', org=(150, 450), fontFace=cv2.FONT_HERSHEY_TRIPLEX, fontScale=5,
+                color= colortext , thickness=3)
+    cv2.putText(img=img, text="nikeMen US : "+str(nikeM), org=(150, 650), fontFace=cv2.FONT_HERSHEY_TRIPLEX, fontScale=5,
+                color= colortext , thickness=3)
+    cv2.putText(img=img, text="nikeWomen US : "+str(nikeWM), org=(150, 850), fontFace=cv2.FONT_HERSHEY_TRIPLEX, fontScale=5,
+                color= colortext , thickness=3)
+    cv2.putText(img=img, text="adidasMen US : "+str(adidasM), org=(150, 1050), fontFace=cv2.FONT_HERSHEY_TRIPLEX, fontScale=5,
+                color= colortext , thickness=3)
+    cv2.putText(img=img, text="adidasWomen US : "+str(adidasWM), org=(150, 1250), fontFace=cv2.FONT_HERSHEY_TRIPLEX, fontScale=5,
+                color= colortext , thickness=3)
+
+
+    plt.imshow(img)
+    plt.show()
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = cv2.imwrite('output/result_ALL_size.jpg', img)
