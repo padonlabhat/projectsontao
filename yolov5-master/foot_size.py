@@ -42,14 +42,14 @@ def perspectiveA4(path):
     mask_a4 = cv2.inRange(img,numpy.array([150,150,150]),numpy.array([255,255,255]))
     # cv2.imshow('mask_a4', mask_a4)
     # cv2.waitKey(0)
-    cv2.imwrite('output/perspectiveA4_1mask_a4.jpg', mask_a4)
+    cv2.imwrite('output/1perspectiveA4_1mask_a4.jpg', mask_a4)
 
     kernel = np.ones((10, 10), np.uint8)
     mask_a4 = cv2.dilate(mask_a4, kernel, iterations=1)
     mask_a4 = cv2.erode(mask_a4, kernel, iterations=1)
     # cv2.imshow('mask_a4', mask_a4)
     # cv2.waitKey(0)
-    cv2.imwrite('output/perspectiveA4_2kernel.jpg', mask_a4)
+    cv2.imwrite('output/1perspectiveA4_2kernel.jpg', mask_a4)
 
     cnts = cv2.findContours(mask_a4, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
@@ -60,7 +60,7 @@ def perspectiveA4(path):
         contourSS = cv2.drawContours(img.copy(), [approx], 0, (0, 255,0), 2)
 
         # print(approx)
-    cv2.imwrite('output/perspectiveA4_3contour.jpg', contourSS)
+    cv2.imwrite('output/1perspectiveA4_3contour.jpg', contourSS)
 
     myPoints = np.array(approx, dtype=np.int32)
     # print('********************************')
@@ -110,23 +110,23 @@ def perspectiveA4(path):
     result = cv2.warpPerspective(img, matrix, (w, h))
     # cv2.imshow('img', result)
     # cv2.waitKey(0)
-    cv2.imwrite('output/result_A4.jpg', result)
+    cv2.imwrite('output/1perspectiveA4_result.jpg', result)
 
-def findSize(path):
+def findSize(path,light):
     A4 = cv2.imread(path)
     A4 = cv2.resize(A4, (2480, 3508))
     # cv2.imshow('result_A4.jpg', A4)
     # cv2.waitKey(0)
-    mask_a4 = cv2.inRange(A4, numpy.array([110, 110, 110]), numpy.array([255, 255, 255]))
+    mask_a4 = cv2.inRange(A4, numpy.array([light,light, light]), numpy.array([255, 255, 255]))
     # cv2.imshow('mask_a4', mask_a4)
     # cv2.waitKey(0)
-    cv2.imwrite('output/findsize_1mask_a4.jpg', mask_a4)
+    cv2.imwrite('output/2findsize_1mask_a4.jpg', mask_a4)
     kernel = np.ones((100, 100), np.uint8)
     mask_a4 = cv2.dilate(mask_a4, kernel, iterations=1)
     mask_a4 = cv2.erode(mask_a4, kernel, iterations=1)
-    cv2.imwrite('output/findsize_2kernel.jpg', mask_a4)
+    cv2.imwrite('output/2findsize_2kernel.jpg', mask_a4)
     thresh1 = cv2.threshold(mask_a4, 127, 255, cv2.THRESH_BINARY_INV)[1]
-    cv2.imwrite('output/findsize_3thresh1.jpg', thresh1)
+    cv2.imwrite('output/2findsize_3thresh1.jpg', thresh1)
     # cv2.imshow('mask_a4', thresh1)
     # cv2.waitKey(0)
 
@@ -139,7 +139,7 @@ def findSize(path):
         x, y, w1, h1 = cv2.boundingRect(c)
 
     box1 = cv2.rectangle(A4.copy(), (x, y), (x + w1, y + h1), (0, 255, 0), 10)
-    cv2.imwrite('output/findsize_4box1.jpg', box1)
+    cv2.imwrite('output/2findsize_4box1.jpg', box1)
     # for c in cnts:
     #     epsilon = 0.001 * cv2.arcLength(c, True)
     #     approx = cv2.approxPolyDP(c, epsilon, True)
@@ -165,7 +165,7 @@ def findSize(path):
 
 
     crop_img = thresh1[0:h1 , : ]
-    cv2.imwrite('output/findsize_5crop_img.jpg', crop_img)
+    cv2.imwrite('output/2findsize_5crop_img.jpg', crop_img)
     # plt.imshow(crop_img )
     # plt.show()
     cnts = cv2.findContours(crop_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -177,8 +177,8 @@ def findSize(path):
     box2 = cv2.rectangle(A4.copy(), (x, y), (x + w1, y + h1), (0, 0, 255), 10)
     ALLbox = cv2.rectangle(box1, (x, y), (x + w1, y + h1), (0, 0, 255), 10)
 
-    cv2.imwrite('output/findsize_6box2.jpg', box2)
-    cv2.imwrite('output/findsize_7ALLBOX.jpg', ALLbox)
+    cv2.imwrite('output/2findsize_6box2.jpg', box2)
+    cv2.imwrite('output/2findsize_7ALLBOX.jpg', ALLbox)
     # print('x = ', x)
     # print('y = ', y)
     # print('w1 = ', w1)
