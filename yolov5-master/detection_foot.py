@@ -38,6 +38,11 @@ def detect_by_img(pathImg,pathModel):
     image_rgb = cv2.cvtColor(results.imgs[0], cv2.COLOR_BGR2RGB)
     cv2.imshow('img', image_rgb)
     cv2.waitKey(0)
+    crops = results.crop(save=True)
+    crops = crops[0]['im']
+    # crops = cv2.resize(crops, (800, 800))
+    crops = cv2.cvtColor(crops, cv2.COLOR_BGR2RGB)
+    cv2.imwrite('output/crops.jpg', crops)
 
 def readAllfile():
     model = torch.hub.load('ultralytics/yolov5', 'custom', path='D:/GitHub/projectsonteen/my models/best_typeFoot.pt')

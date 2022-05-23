@@ -58,6 +58,7 @@ def perspectiveA4(path):
         epsilon = 0.06 * cv2.arcLength(c, True)
         approx = cv2.approxPolyDP(c, epsilon, True)
         contourSS = cv2.drawContours(img.copy(), [approx], 0, (0, 255,0), 2)
+
         # print(approx)
     cv2.imwrite('output/perspectiveA4_3contour.jpg', contourSS)
 
