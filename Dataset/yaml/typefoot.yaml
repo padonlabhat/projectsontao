@@ -1,0 +1,8 @@
+train: /content/drive/MyDrive/Foot Detection/type foot
+val: /content/drive/MyDrive/Foot Detection/type foot
+
+# Classes
+nc: 2  # number of classes
+names: ['flat foot', 'normal foot']  # class names
+
+
