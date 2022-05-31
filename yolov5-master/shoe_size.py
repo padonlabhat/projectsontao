@@ -132,7 +132,7 @@ def showsize(footSize):
     length, width = footSize
     nikeM,nikeWM = nike(length)
     adidasM, adidasWM = adidas(length)
-    img = cv2.imread('output/findsize_7ALLBOX.jpg')
+    img = cv2.imread('output/2findsize_7ALLBOX.jpg')
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     colortext = (0,0,255)
     cv2.putText(img=img, text="length : "+str(length)+' CM', org=(150, 250), fontFace=cv2.FONT_HERSHEY_TRIPLEX, fontScale=5,
@@ -149,7 +149,8 @@ def showsize(footSize):
                 color= colortext , thickness=3)
 
 
-    plt.imshow(img)
-    plt.show()
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img = cv2.imwrite('output/result_ALL_size.jpg', img)
+    cv2.imwrite('output/3result_ALL_size.jpg', img)
+    # img = cv2.imread('output/3result_ALL_size.jpg')
+    # plt.imshow(img)
+    # plt.show()
