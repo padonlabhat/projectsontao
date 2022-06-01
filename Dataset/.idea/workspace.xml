@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="289ef62a-ac67-41e4-92e4-018961d0ad38" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/code resize/Code Resize.py" beforeDir="false" afterPath="$PROJECT_DIR$/code resize/Code Resize.py" afterDir="false" />
-    </list>
+    <list default="true" id="289ef62a-ac67-41e4-92e4-018961d0ad38" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,7 +22,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
   </component>
   <component name="RunManager">
     <configuration name="Code Resize" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
