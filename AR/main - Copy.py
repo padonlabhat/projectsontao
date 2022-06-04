@@ -147,3 +147,4 @@ composition_1 = add_obj(background, img, mask, 960, 640)
 plt.figure(figsize=(15,15))
 plt.imshow(composition_1);
 
+# cv2.waitKey(0)
