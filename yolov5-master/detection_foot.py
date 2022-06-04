@@ -28,7 +28,15 @@ def detect_by_img(pathImg,pathModel):
     frame = pathImg
     results = model(frame)
     results.render()
+    testlocation=[]
+    testlocation=results.pandas().xyxy[0]
     print(results.pandas().xyxy[0])
+    print(testlocation)
+    print(testlocation.xmax[0])
+    x1,y1 = testlocation.xmin[0],testlocation.ymin[0]
+    x2,y2 = testlocation.xmax[0],testlocation.ymax[0]
+    (x, y) = (x2 + x1) / 2, (y2 + y1) / 2
+    print(x,y)
     # if results.names[0] == 'flat foot' :
     #     print('The best brand shoes for you is Adidas.')
     # elif results.names[0] == 'normal foot' :
@@ -36,6 +44,7 @@ def detect_by_img(pathImg,pathModel):
 
     #
     image_rgb = cv2.cvtColor(results.imgs[0], cv2.COLOR_BGR2RGB)
+    image_rgb = cv2.circle(image_rgb, (int(x),int(y)), radius=0, color=(0, 0, 255), thickness=10)
     cv2.imshow('img', image_rgb)
     cv2.waitKey(0)
     crops = results.crop(save=True)
