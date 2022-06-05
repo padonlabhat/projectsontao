@@ -1,7 +1,7 @@
 import torch
 import cv2
 import os
-
+import cvzone
 def detect_by_video(camera,pathModel):
     model = torch.hub.load('ultralytics/yolov5', 'custom', path=pathModel)
     cap = cv2.VideoCapture(camera)
@@ -71,6 +71,7 @@ def readAllfile():
         img =results.imgs[0]
 
         cv2.imwrite("D:/GitHub/projectsonteen/yolov5-master/result test/" + i, img)
+
 
 # take_a_photo(1)
 # detect_from_img()

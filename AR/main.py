@@ -6,9 +6,7 @@
 
 import cvzone
 import cv2
-imgBack = cv2.imread("data/jlpt.jpg")
+imgBack = cv2.imread("data/background.jpg")
 imgFront = cv2.imread("data/Screenshot (7).png", cv2.IMREAD_UNCHANGED)
-imgFront = cv2.resize(imgFront, (0, 0), None, 0.1, 0.1)
+imgFront = cv2.resize(imgFront,(500,500))
 imgResult = cvzone.overlayPNG(imgBack, imgFront, [100,100])
-cv2.imshow("Image", imgResult)
-cv2.waitKey(0)
