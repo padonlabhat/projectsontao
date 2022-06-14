@@ -1,5 +1,1 @@
 Top_Foot
-Left_Foot
-Right_Foot
-Thumb_Foot
-Heel_Foot
