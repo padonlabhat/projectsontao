@@ -19,6 +19,7 @@ def AR_by_video(camera,pathModel):
     while True:
         _, frame = cap.read()
         results = model(frame)
+        # results.render()
         testlocation = results.pandas().xyxy[0]
         # print(results.pandas().xyxy[0])
         print(testlocation)
@@ -37,10 +38,10 @@ def AR_by_video(camera,pathModel):
                 sizeImg = int(x2-x1)
             else :
                 sizeImg = int(y2-y1)
-
+            sizeImg = 200
             location = [int(x), int(y)]
             # imgShoes = read3DObj("data/10055_Gray_Wolf_v1_L3.obj", "data/10055_Gray_Wolf_Diffuse_v1.jpg", 45, (0, 0, 1))
-            imgResult = overlayImg(frame,'data/images/Boonsung.png',sizeImg,location)
+            imgResult = overlayImg(frame,'output/shoes.png',sizeImg,location)
             frame = cv2.circle(imgResult, (int(x), int(y)), radius=0, color=(0, 0, 255), thickness=10)
         key = cv2.waitKey(1)
         if key == ord('c'):
@@ -51,12 +52,12 @@ def AR_by_video(camera,pathModel):
 def read3DObj(pathObj,pathDesign,angle,way):
     mesh = Mesh(pathObj)
     mesh.texture(pathDesign, scale=1)
-    # settings.screenshotTransparentBackground = True
+    settings.screenshotTransparentBackground = True
     # mesh.print()
     mesh.rotate(angle, axis=way, point=(0, 0, 0), rad=False)
     # mesh.show()
     plotter = vedo.Plotter(offscreen=True)
     plotter += mesh
-    plotter.show().screenshot('shoes.png')
-read3DObj("data/10055_Gray_Wolf_v1_L3.obj","data/10055_Gray_Wolf_Diffuse_v1.jpg",45,(0, 0, 1))
-AR_by_video(1,'my models/best_footA4.pt')
+    plotter.show().screenshot('output/shoes.png')
+# read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png",90,(1, 0, 0))
+AR_by_video(2,'my models/best_topfoot.pt')
