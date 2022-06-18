@@ -12,7 +12,6 @@ def overlayImg(pathBack,pathFront,sizeImg,location):
     imgResult = cvzone.overlayPNG(imgBack, imgFront, location)
     return imgResult
 
-
 def AR_by_video(camera,pathModel):
     model = torch.hub.load('ultralytics/yolov5', 'custom', path=pathModel)
     cap = cv2.VideoCapture(camera)
@@ -40,8 +39,9 @@ def AR_by_video(camera,pathModel):
                 sizeImg = int(y2-y1)
             sizeImg = 200
             location = [int(x), int(y)]
-            # imgShoes = read3DObj("data/10055_Gray_Wolf_v1_L3.obj", "data/10055_Gray_Wolf_Diffuse_v1.jpg", 45, (0, 0, 1))
+            set3Dobj(mesh, angle=90,way=(1, 0, 0),screenshot=True)
             imgResult = overlayImg(frame,'output/shoes.png',sizeImg,location)
+            set3Dobj(mesh, angle=-90,way=(1, 0, 0),screenshot=False)
             frame = cv2.circle(imgResult, (int(x), int(y)), radius=0, color=(0, 0, 255), thickness=10)
         key = cv2.waitKey(1)
         if key == ord('c'):
@@ -49,15 +49,31 @@ def AR_by_video(camera,pathModel):
             break
         results.render()
         cv2.imshow('preview-frame',frame)
-def read3DObj(pathObj,pathDesign,angle,way):
+def read3DObj(pathObj,pathDesign):
     mesh = Mesh(pathObj)
     mesh.texture(pathDesign, scale=1)
+    return mesh
+
+def set3Dobj(mesh,angle,way,screenshot=False):
     settings.screenshotTransparentBackground = True
-    # mesh.print()
     mesh.rotate(angle, axis=way, point=(0, 0, 0), rad=False)
     # mesh.show()
     plotter = vedo.Plotter(offscreen=True)
     plotter += mesh
-    plotter.show().screenshot('output/shoes.png')
+    if screenshot == True :
+        plotter.show().screenshot('output/shoes.png')
+
+mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
+AR_by_video(2,'my models/best_footA4.pt')
+
+
+
+
+
+
+
+
+
+
+
 # read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png",90,(1, 0, 0))
-AR_by_video(2,'my models/best_topfoot.pt')
