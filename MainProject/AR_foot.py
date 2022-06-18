@@ -18,7 +18,7 @@ def AR_by_video(camera,pathModel):
     while True:
         _, frame = cap.read()
         results = model(frame)
-        # results.render()
+        results.render()
         testlocation = results.pandas().xyxy[0]
         # print(results.pandas().xyxy[0])
         print(testlocation)
@@ -28,20 +28,23 @@ def AR_by_video(camera,pathModel):
 
 
         if testlocation.empty == False :
-            x1, y1 = testlocation.xmin[0], testlocation.ymin[0]
-            x2, y2 = testlocation.xmax[0], testlocation.ymax[0]
-            (x, y) = (x2 + x1) / 2, (y2 + y1) / 2
+            xmin, ymin = testlocation.xmin[0], testlocation.ymin[0]
+            xmax, ymax = testlocation.xmax[0], testlocation.ymax[0]
+            (x, y) = (xmax + xmin) / 2, (ymax + ymin) / 2
             print('center point : ', x, y)
             frame = cv2.circle(frame, (int(x), int(y)), radius=0, color=(0, 0, 255), thickness=10)
-            if (x2-x1)<(y2-y1):
-                sizeImg = int(x2-x1)
+            if (xmax-xmin)<(ymax-ymin):
+                sizeImg = int(xmax-xmin)
             else :
-                sizeImg = int(y2-y1)
-            sizeImg = 200
+                sizeImg = int(ymax-ymin)
+            # width = int(xmax-xmin)
+            # long = int(ymax-ymin)
+            # sizeImg = (width,long)
             location = [int(x), int(y)]
-            set3Dobj(mesh, angle=90,way=(1, 0, 0),screenshot=True)
-            imgResult = overlayImg(frame,'output/shoes.png',sizeImg,location)
-            set3Dobj(mesh, angle=-90,way=(1, 0, 0),screenshot=False)
+            # set3Dobj(mesh, angle=90,way=(1, 0, 0),screenshot=True)
+            # imgResult = overlayImg(frame,'output/shoes.png',sizeImg,location)
+            # set3Dobj(mesh, angle=-90,way=(1, 0, 0),screenshot=False)
+            imgResult = set3Drighttop(frame,sizeImg,location)
             frame = cv2.circle(imgResult, (int(x), int(y)), radius=0, color=(0, 0, 255), thickness=10)
         key = cv2.waitKey(1)
         if key == ord('c'):
@@ -63,7 +66,50 @@ def set3Dobj(mesh,angle,way,screenshot=False):
     if screenshot == True :
         plotter.show().screenshot('output/shoes.png')
 
+def set3Dstraighttop(frame,sizeImg,location,angle=90):
+    set3Dobj(mesh, angle=angle, way=(1, 0, 0), screenshot=True)
+    imgResult = overlayImg(frame, 'output/shoes.png', sizeImg, location)
+    set3Dobj(mesh, angle=-angle, way=(1, 0, 0), screenshot=False)
+    return imgResult
+
+def set3Dlefttop(frame,sizeImg,location,angle=45):
+    set3Dobj(mesh, angle=90,way=(1, 0, 0))
+    way=(1, 0, 1)
+    set3Dobj(mesh, angle=angle,way=way,screenshot=True)
+    imgResult = overlayImg(frame,'output/shoes.png',sizeImg,location)
+    set3Dobj(mesh, angle=-angle, way=way)
+    set3Dobj(mesh, angle=-90,way=(1, 0, 0))
+    return imgResult
+
+def set3Drighttop(frame,sizeImg,location,angle=45):
+    set3Dobj(mesh, angle=90,way=(1, 0, 0))
+    way=(-1, 0, -1)
+    set3Dobj(mesh, angle=angle,way=way,screenshot=True)
+    imgResult = overlayImg(frame,'output/shoes.png',sizeImg,location)
+    set3Dobj(mesh, angle=-angle, way=way)
+    set3Dobj(mesh, angle=-90,way=(1, 0, 0))
+    return imgResult
+
+
 mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
+# set3Dobj(mesh, angle=90,way=(1, 0, 0),screenshot=True)
+# for i in range(45):
+#     way = (-1, 0, -1)
+#     set3Dobj(mesh, angle=i,way=way,screenshot=True)
+#     set3Dobj(mesh, angle=-i, way=way)
+#     frame = cv2.imread('output/shoes.png')
+#     cv2.imshow('preview-frame', frame)
+#     cv2.waitKey(1)
+
+
+
+
+
+
+# frame = cv2.imread('output/shoes.png')
+# cv2.imshow('preview-frame', frame)
+# cv2.waitKey(1)
+
 AR_by_video(2,'my models/best_footA4.pt')
 
 
