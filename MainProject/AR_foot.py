@@ -6,10 +6,10 @@ from vedo import *
 import vedo
 from PIL import Image
 def overlayImg(pathBack,pathFront,sizeImg,location):
-    location = [int(location[0]-sizeImg/2),int(location[1]-sizeImg/2)]
+    location = [int(location[0]-sizeImg[0]/2),int(location[1]-sizeImg[1]/2)]
     imgBack = pathBack
     imgFront = cv2.imread(pathFront, cv2.IMREAD_UNCHANGED)
-    imgFront = cv2.resize(imgFront,(sizeImg,sizeImg))
+    imgFront = cv2.resize(imgFront,(sizeImg[0],sizeImg[1]))
     imgResult = cvzone.overlayPNG(imgBack, imgFront, location)
     return imgResult
 def cropimg(pathImg):
@@ -45,9 +45,9 @@ def AR_by_video(camera,pathModel):
                 sizeImg = int(xmax-xmin)
             else :
                 sizeImg = int(ymax-ymin)
-            # width = int(xmax-xmin)
-            # long = int(ymax-ymin)
-            # sizeImg = (width,long)
+            width = int(xmax-xmin)
+            long = int(ymax-ymin)
+            sizeImg = (width,long)
             location = [int(x), int(y)]
             # imgResult = set3Drighttop(frame,sizeImg,location)
             imgResult = set3Dleft(frame,sizeImg,location)
@@ -127,17 +127,17 @@ def set3Dleft(frame,sizeImg,location,angle=90):
 # cv2.waitKey(1)
 
 
-def get_location_to_list(len_list):
-    list = []
-    for i in range(len(testlocation.name)) :
-        detail =[]
-        detail.append(testlocation.name[i])
-        detail.append(testlocation.xmin[i])
-        detail.append(testlocation.ymin[i])
-        detail.append(testlocation.xmax[i])
-        detail.append(testlocation.ymax[i])
-        list.append(detail)
-    return list
+# def get_location_to_list(len_list):
+#     list = []
+#     for i in range(len(testlocation.name)) :
+#         detail =[]
+#         detail.append(testlocation.name[i])
+#         detail.append(testlocation.xmin[i])
+#         detail.append(testlocation.ymin[i])
+#         detail.append(testlocation.xmax[i])
+#         detail.append(testlocation.ymax[i])
+#         list.append(detail)
+#     return list
 
 def find_xy_from_class(list,name) :
     index_name = []
@@ -161,7 +161,7 @@ def find_xy_from_class(list,name) :
 # print(find_xy_from_class(get_location_to_list(testlocation),'Foot on A4'))
 
 
-# mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
+mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
 AR_by_video(2,'my models/best_typeFoot.pt')
 
 
