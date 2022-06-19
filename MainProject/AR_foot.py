@@ -4,6 +4,7 @@ import os
 import cvzone
 from vedo import *
 import vedo
+from PIL import Image
 def overlayImg(pathBack,pathFront,sizeImg,location):
     location = [int(location[0]-sizeImg/2),int(location[1]-sizeImg/2)]
     imgBack = pathBack
@@ -11,6 +12,13 @@ def overlayImg(pathBack,pathFront,sizeImg,location):
     imgFront = cv2.resize(imgFront,(sizeImg,sizeImg))
     imgResult = cvzone.overlayPNG(imgBack, imgFront, location)
     return imgResult
+def cropimg(pathImg):
+    im = Image.open(pathImg)
+    im.size
+    im.getbbox()
+    im2 = im.crop(im.getbbox())
+    im2.size
+    im2.save('output/crop_shoes.png')
 
 def AR_by_video(camera,pathModel):
     model = torch.hub.load('ultralytics/yolov5', 'custom', path=pathModel)
@@ -41,10 +49,8 @@ def AR_by_video(camera,pathModel):
             # long = int(ymax-ymin)
             # sizeImg = (width,long)
             location = [int(x), int(y)]
-            # set3Dobj(mesh, angle=90,way=(1, 0, 0),screenshot=True)
-            # imgResult = overlayImg(frame,'output/shoes.png',sizeImg,location)
-            # set3Dobj(mesh, angle=-90,way=(1, 0, 0),screenshot=False)
-            imgResult = set3Drighttop(frame,sizeImg,location)
+            # imgResult = set3Drighttop(frame,sizeImg,location)
+            imgResult = set3Dleft(frame,sizeImg,location)
             frame = cv2.circle(imgResult, (int(x), int(y)), radius=0, color=(0, 0, 255), thickness=10)
         key = cv2.waitKey(1)
         if key == ord('c'):
@@ -90,6 +96,21 @@ def set3Drighttop(frame,sizeImg,location,angle=45):
     set3Dobj(mesh, angle=-90,way=(1, 0, 0))
     return imgResult
 
+def set3Drigh(frame,sizeImg,location,angle=270):
+    way=(1, 45, 0)
+    set3Dobj(mesh, angle=angle,way=way,screenshot=True)
+    imgResult = overlayImg(frame,'output/shoes.png',sizeImg,location)
+    set3Dobj(mesh, angle=-angle, way=way)
+
+    return imgResult
+
+def set3Dleft(frame,sizeImg,location,angle=90):
+    way=(1, 45, 0)
+    set3Dobj(mesh, angle=angle,way=way,screenshot=True)
+    cropimg('output/shoes.png')
+    imgResult = overlayImg(frame,'output/crop_shoes.png',sizeImg,location)
+    set3Dobj(mesh, angle=-angle, way=way)
+    return imgResult
 
 # mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
 # set3Dobj(mesh, angle=90,way=(1, 0, 0),screenshot=True)
@@ -131,15 +152,17 @@ def find_xy_from_class(list,name) :
     ymax = list[i][4]
 
     return xmin,ymin,xmax,ymax
-# AR_by_video(2,'my models/best_footA4.pt')
-frame = 'input/ggg.png'
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='my models/best_footA4.pt')
-results = model(frame)
-testlocation = results.pandas().xyxy[0]
-print(get_location_to_list(testlocation))
-print(find_xy_from_class(get_location_to_list(testlocation),'Foot on A4'))
+
+# frame = 'input/ggg.png'
+# model = torch.hub.load('ultralytics/yolov5', 'custom', path='my models/best_footA4.pt')
+# results = model(frame)
+# testlocation = results.pandas().xyxy[0]
+# print(get_location_to_list(testlocation))
+# print(find_xy_from_class(get_location_to_list(testlocation),'Foot on A4'))
 
 
+# mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
+AR_by_video(2,'my models/best_typeFoot.pt')
 
 
 
