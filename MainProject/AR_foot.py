@@ -91,7 +91,7 @@ def set3Drighttop(frame,sizeImg,location,angle=45):
     return imgResult
 
 
-mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
+# mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
 # set3Dobj(mesh, angle=90,way=(1, 0, 0),screenshot=True)
 # for i in range(45):
 #     way = (-1, 0, -1)
@@ -101,16 +101,43 @@ mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
 #     cv2.imshow('preview-frame', frame)
 #     cv2.waitKey(1)
 
-
-
-
-
-
 # frame = cv2.imread('output/shoes.png')
 # cv2.imshow('preview-frame', frame)
 # cv2.waitKey(1)
 
-AR_by_video(2,'my models/best_footA4.pt')
+
+def get_location_to_list(len_list):
+    list = []
+    for i in range(len(testlocation.name)) :
+        detail =[]
+        detail.append(testlocation.name[i])
+        detail.append(testlocation.xmin[i])
+        detail.append(testlocation.ymin[i])
+        detail.append(testlocation.xmax[i])
+        detail.append(testlocation.ymax[i])
+        list.append(detail)
+    return list
+
+def find_xy_from_class(list,name) :
+    index_name = []
+    for i in range(len(list)):
+        if list[i][0] == name:
+            print('index ',i,' ',name)
+        index_name.append(i)
+    print(len(index_name))
+    xmin = list[i][1]
+    ymin = list[i][2]
+    xmax =list[i][3]
+    ymax = list[i][4]
+
+    return xmin,ymin,xmax,ymax
+# AR_by_video(2,'my models/best_footA4.pt')
+frame = 'input/ggg.png'
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='my models/best_footA4.pt')
+results = model(frame)
+testlocation = results.pandas().xyxy[0]
+print(get_location_to_list(testlocation))
+print(find_xy_from_class(get_location_to_list(testlocation),'Foot on A4'))
 
 
 
@@ -118,8 +145,3 @@ AR_by_video(2,'my models/best_footA4.pt')
 
 
 
-
-
-
-
-# read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png",90,(1, 0, 0))
