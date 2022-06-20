@@ -1,7 +1,7 @@
 import os
 import cv2
 
-path = 'C:/Users/USER/Desktop/projectsontao/Dataset/imgFootAR/TopFoot/'
+path = 'C:/Users/USER/Desktop/projectsontao/Dataset/imgFootAR/'
 dir = os.listdir(path)
 # print(path)
 # print(len(dir))
@@ -12,7 +12,7 @@ for i in dir:
     img = cv2.imread(path + i)
     print(img)
     img = cv2.resize(img,(500,500))
-    cv2.imwrite("C:/Users/USER/Desktop/projectsontao/Dataset/For train/TopFoot/images/"+i,img)
+    cv2.imwrite("C:/Users/USER/Desktop/projectsontao/Dataset/For train/AR/images/"+i,img)
 
 # cv2.imshow('image',img)
 # cv2.waitKey(0)
