@@ -38,7 +38,8 @@ def AR_by_video(camera,pathModel):
         if testlocation.empty == False :
             # xmin, ymin = testlocation.xmin[0], testlocation.ymin[0]
             # xmax, ymax = testlocation.xmax[0], testlocation.ymax[0]
-            xmin, ymin, xmax, ymax = find_xy_from_class(get_location_to_list(testlocation), 'Top_Foot')
+            # xmin, ymin, xmax, ymax = find_xy_from_class(get_location_to_list(testlocation), 'Top_Foot')
+            xmin, ymin, xmax, ymax, anglethumb, caseObj = case3DObj(testlocation)
             (x, y) = (xmax + xmin) / 2, (ymax + ymin) / 2
             print('center point : ', x, y)
             frame = cv2.circle(frame, (int(x), int(y)), radius=0, color=(0, 0, 255), thickness=10)
