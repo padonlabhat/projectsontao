@@ -166,18 +166,82 @@ def find_xy_from_class(list) :
         return xmin, ymin, xmax, ymax
 
 
+def case3DObj(testlocation):
+    classname = testlocation.drop_duplicates(subset=['name'])
+    listname = []
 
-frame = 'input/unknown.png'
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='my models/best_AR.pt')
-results = model(frame)
-results.render()
-testlocation = results.pandas().xyxy[0]
-print(get_location_to_list(testlocation))
-xmin,ymin,xmax,ymax = find_xy_from_class(get_location_to_list(testlocation))
-print(xmin)
-print(ymin)
-print(xmax)
-print(ymax)
+    classname = classname.reset_index()
+
+    for i in range(len(classname)):
+        listname.append(classname.name[i])
+    if listname.count('Top_Foot') > 0 and listname.count('Thumb_Foot') > 0:
+        topfoot = classname.loc[classname['name'] == 'Top_Foot']
+        thumbfoot = classname.loc[classname['name'] == 'Thumb_Foot']
+        xmin = topfoot.xmin[0]
+        ymin = topfoot.ymin[0]
+        xmax = topfoot.xmax[0]
+        ymax = topfoot.ymax[0]
+        sum = (xmax+xmin)/2
+        # print(thumbfoot)
+        # print(thumbfoot.xmin[1])
+        xminthumb = thumbfoot.xmin[1]
+        if xminthumb > sum:
+            anglethumb = thumbfoot.xmin[1] - sum
+            caseObj = 1
+        elif xminthumb < sum:
+            anglethumb = sum - thumbfoot.xmin[1]
+            caseObj = 2
+        anglethumb=anglethumb / 2
+    elif listname.count('Left_Foot') > 0:
+        leftfoot = classname.loc[classname['name'] == 'Left_Foot']
+        caseObj = 3
+        xmin = leftfoot.xmin[0]
+        ymin = leftfoot.ymin[0]
+        xmax = leftfoot.xmax[0]
+        ymax = leftfoot.ymax[0]
+        anglethumb = 'none'
+    elif listname.count('Right_Foot') > 0:
+        rightfoot = classname.loc[classname['name'] == 'Right_Foot']
+        caseObj = 4
+        xmin = rightfoot.xmin[0]
+        ymin = rightfoot.ymin[0]
+        xmax = rightfoot.xmax[0]
+        ymax = rightfoot.ymax[0]
+        anglethumb = 'none'
+    elif listname.count('Top_Foot') > 0:
+        topfoot = classname.loc[classname['name'] == 'Top_Foot']
+        xmin = topfoot.xmin[0]
+        ymin = topfoot.ymin[0]
+        xmax = topfoot.xmax[0]
+        ymax = topfoot.ymax[0]
+        caseObj = 5
+        anglethumb = 'none'
+    else :
+        anglethumb = 'none'
+        xmin, ymin, xmax, ymax = 'none', 'none', 'none', 'none'
+        caseObj = 6
+    return xmin, ymin, xmax, ymax, anglethumb, caseObj
+
+
+# frame = 'input/foot (97).jpg'
+# model = torch.hub.load('ultralytics/yolov5', 'custom', path='my models/best_AR.pt')
+# results = model(frame)
+# results.render()
+#
+# testlocation = results.pandas().xyxy[0]
+# print(testlocation)
+# xmin, ymin, xmax, ymax, anglethumb, caseObj = case3DObj(testlocation)
+#
+#
+# print(xmin, ymin, xmax, ymax, anglethumb,caseObj)
+# print(listname.count('Tosp_Foot'))
+
+# print(get_location_to_list(testlocation))
+# xmin,ymin,xmax,ymax = find_xy_from_class(get_location_to_list(testlocation))
+# print(xmin)
+# print(ymin)
+# print(xmax)
+# print(ymax)
 
 # mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
 # AR_by_video(2,'my models/best_AR.pt')
