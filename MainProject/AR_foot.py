@@ -74,7 +74,7 @@ def AR_by_video(camera,pathModel):
         if key == ord('c'):
             cv2.destroyAllWindows()
             break
-        results.render()
+        # results.render()
         cv2.imshow('preview-frame',frame)
 
 def read3DObj(pathObj,pathDesign):
@@ -200,7 +200,7 @@ def case3DObj(testlocation):
         ymin = topfoot.ymin[0]
         xmax = topfoot.xmax[0]
         ymax = topfoot.ymax[0]
-        sum = (xmax+xmin)/2
+        sum = (xmax+xmin)/4
         # print(thumbfoot)
         # print(thumbfoot.xmin[1])
         xminthumb = thumbfoot.xmin[0]
@@ -212,6 +212,7 @@ def case3DObj(testlocation):
             anglethumb = sum - thumbfoot.xmin[0]
             caseObj = 2
             anglethumb = anglethumb / 2
+
 
     elif listname.count('Left_Foot') > 0:
         leftfoot = classname.loc[classname['name'] == 'Left_Foot']
@@ -268,7 +269,7 @@ def case3DObj(testlocation):
 # print(ymax)
 
 mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
-AR_by_video(2,'my models/best_AR.pt')
+AR_by_video(1,'my models/best_AR.pt')
 
 
 
