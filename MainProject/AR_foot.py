@@ -200,7 +200,7 @@ def case3DObj(testlocation):
         ymin = topfoot.ymin[0]
         xmax = topfoot.xmax[0]
         ymax = topfoot.ymax[0]
-        sum = (xmax+xmin)/4
+        sum = (xmax+xmin)/2
         # print(thumbfoot)
         # print(thumbfoot.xmin[1])
         xminthumb = thumbfoot.xmin[0]
@@ -269,7 +269,7 @@ def case3DObj(testlocation):
 # print(ymax)
 
 mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
-AR_by_video(1,'my models/best_AR.pt')
+AR_by_video(2,'my models/best_AR.pt')
 
 
 
