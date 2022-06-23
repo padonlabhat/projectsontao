@@ -28,7 +28,7 @@ def AR_by_video(camera,pathModel):
     while True:
         _, frame = cap.read()
         results = model(frame)
-        results.render()
+        # results.render()
         testlocation = results.pandas().xyxy[0]
         # print(results.pandas().xyxy[0])
         print(testlocation)
@@ -68,8 +68,8 @@ def AR_by_video(camera,pathModel):
                     imgResult = set3Dright(frame,sizeImg,location)
                 elif caseObj == 5:
                     imgResult = set3Dstraighttop(frame, sizeImg, location)
-
-                frame = cv2.circle(imgResult, (int(x), int(y)), radius=0, color=(0, 0, 255), thickness=10)
+                frame = imgResult
+                # frame = cv2.circle(imgResult, (int(x), int(y)), radius=0, color=(0, 0, 255), thickness=10)
         key = cv2.waitKey(1)
         if key == ord('c'):
             cv2.destroyAllWindows()
@@ -207,10 +207,12 @@ def case3DObj(testlocation):
         if xminthumb > sum:
             anglethumb = thumbfoot.xmin[0] - sum
             caseObj = 1
+            anglethumb = anglethumb / 2
         elif xminthumb < sum:
             anglethumb = sum - thumbfoot.xmin[0]
             caseObj = 2
-        anglethumb=anglethumb / 2
+            anglethumb = anglethumb / 2
+
     elif listname.count('Left_Foot') > 0:
         leftfoot = classname.loc[classname['name'] == 'Left_Foot']
         leftfoot = leftfoot.reset_index()
@@ -266,7 +268,7 @@ def case3DObj(testlocation):
 # print(ymax)
 
 mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
-AR_by_video(1,'my models/best_AR.pt')
+AR_by_video(2,'my models/best_AR.pt')
 
 
 
