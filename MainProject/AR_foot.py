@@ -5,7 +5,11 @@ import cvzone
 from vedo import *
 import vedo
 from PIL import Image
-
+def read3DObj(pathObj,pathDesign):
+    mesh = Mesh(pathObj)
+    mesh.texture(pathDesign, scale=1)
+    return mesh
+mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
 def overlayImg(pathBack,pathFront,sizeImg,location):
     location = [int(location[0]-sizeImg[0]/2),int(location[1]-sizeImg[1]/2)]
     imgBack = pathBack
@@ -22,7 +26,7 @@ def cropimg(pathImg):
     im2.size
     im2.save('output/crop_shoes.png')
 
-def AR_by_video(camera,pathModel):
+def AR_by_video(camera,pathModel='my models/best_AR.pt'):
     model = torch.hub.load('ultralytics/yolov5', 'custom', path=pathModel)
     cap = cv2.VideoCapture(camera)
     while True:
@@ -33,7 +37,7 @@ def AR_by_video(camera,pathModel):
         # print(results.pandas().xyxy[0])
         print(testlocation)
         # print('Xmax',testlocation.xmax[0])
-        print(testlocation.empty)
+        # print(testlocation.empty)
         print('************')
 
 
@@ -77,10 +81,7 @@ def AR_by_video(camera,pathModel):
         # results.render()
         cv2.imshow('preview-frame',frame)
 
-def read3DObj(pathObj,pathDesign):
-    mesh = Mesh(pathObj)
-    mesh.texture(pathDesign, scale=1)
-    return mesh
+
 
 def set3Dobj(mesh,angle,way,screenshot=False):
     settings.screenshotTransparentBackground = True
@@ -207,7 +208,7 @@ def case3DObj(testlocation):
         if xminthumb > sum:
             anglethumb = thumbfoot.xmin[0] - sum
             caseObj = 1
-            anglethumb = anglethumb / 2
+            anglethumb = anglethumb
         elif xminthumb < sum:
             anglethumb = sum - thumbfoot.xmin[0]
             caseObj = 2
@@ -268,8 +269,8 @@ def case3DObj(testlocation):
 # print(xmax)
 # print(ymax)
 
-mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
-AR_by_video(2,'my models/best_AR.pt')
+
+AR_by_video(2)
 
 
 
