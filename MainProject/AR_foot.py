@@ -270,7 +270,7 @@ def case3DObj(testlocation):
 # print(ymax)
 
 
-AR_by_video(2)
+
 
 
 
