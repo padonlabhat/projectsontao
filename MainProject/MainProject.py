@@ -7,13 +7,13 @@ camera = 2
 pathTypefoot = 'my models/best_typeFoot.pt'
 pathDetectA4 = 'my models/best_footA4.pt'
 #************Test by Img*****************
-detect.detect_by_img('input/footA4 (21).jpg',pathDetectA4)
-# detect.detect_by_img('input/foot (6).jpg',pathTypefoot)
+# detect.detect_by_img('input/test2.jpg',pathDetectA4,crop=True)
+# detect.detect_by_img('input/type.jpeg',pathTypefoot,crop=False)
 #************Test by Video*****************
 # detect.detect_by_video(camera,pathTypefoot)
 # detect.detect_by_video(camera,pathDetectA4)
 #************Find size*****************
-foot_size.perspectiveA4('output/crops.jpg')
+foot_size.perspectiveA4('output/crops (4).jpg')
 footSize = foot_size.findSize('output/1perspectiveA4_result.jpg',127)
 shoe_size.showsize(footSize)
 #************AR Model*****************

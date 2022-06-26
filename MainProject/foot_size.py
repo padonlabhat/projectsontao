@@ -44,12 +44,18 @@ def perspectiveA4(path):
     # cv2.waitKey(0)
     cv2.imwrite('output/1perspectiveA4_1mask_a4.jpg', mask_a4)
 
+    thresh1 = cv2.threshold(mask_a4, 127, 255, cv2.THRESH_BINARY_INV)[1]
+    cv2.imwrite('output/1perspectiveA4_2thresh.jpg', thresh1)
     kernel = np.ones((10, 10), np.uint8)
-    mask_a4 = cv2.dilate(mask_a4, kernel, iterations=1)
+    mask_a4 = cv2.dilate(thresh1, kernel, iterations=1)
     mask_a4 = cv2.erode(mask_a4, kernel, iterations=1)
-    # cv2.imshow('mask_a4', mask_a4)
-    # cv2.waitKey(0)
-    cv2.imwrite('output/1perspectiveA4_2kernel.jpg', mask_a4)
+    mask_a4 = cv2.threshold(mask_a4, 127, 255, cv2.THRESH_BINARY_INV)[1]
+    # cv2.imwrite('output/1perspectiveA4_4thresh.jpg', mask_a4)
+    # plt.imshow(mask_a4)
+    # plt.title('Matplotlib')  # Give this plot a title,
+    # # so I know it's from matplotlib and not cv2
+    # plt.show()
+    cv2.imwrite('output/1perspectiveA4_3kernel.jpg', mask_a4)
 
     cnts = cv2.findContours(mask_a4, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
@@ -121,10 +127,15 @@ def findSize(path,light):
     # cv2.imshow('mask_a4', mask_a4)
     # cv2.waitKey(0)
     cv2.imwrite('output/2findsize_1mask_a4.jpg', mask_a4)
-    kernel = np.ones((100, 100), np.uint8)
+    mask_a4 = cv2.threshold(mask_a4, 127, 255, cv2.THRESH_BINARY_INV)[1]
+    kernel = np.ones((50, 50), np.uint8)
     mask_a4 = cv2.dilate(mask_a4, kernel, iterations=1)
     mask_a4 = cv2.erode(mask_a4, kernel, iterations=1)
+    mask_a4 = cv2.threshold(mask_a4, 127, 255, cv2.THRESH_BINARY_INV)[1]
     cv2.imwrite('output/2findsize_2kernel.jpg', mask_a4)
+    kernel = np.ones((50, 50), np.uint8)
+    mask_a4 = cv2.dilate(mask_a4, kernel, iterations=1)
+    mask_a4 = cv2.erode(mask_a4, kernel, iterations=1)
     thresh1 = cv2.threshold(mask_a4, 127, 255, cv2.THRESH_BINARY_INV)[1]
     cv2.imwrite('output/2findsize_3thresh1.jpg', thresh1)
     # cv2.imshow('mask_a4', thresh1)
