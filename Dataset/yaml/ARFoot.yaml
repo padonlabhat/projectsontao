@@ -1,0 +1,8 @@
+train: /content/drive/MyDrive/Foot Detection/detectA4
+val: /content/drive/MyDrive/Foot Detection/detectA4
+
+# Classes
+nc: 2  # number of classes
+names: ['Foot on A4']  # class names
+
+

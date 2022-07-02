@@ -7,7 +7,7 @@ camera = 2
 pathTypefoot = 'my models/best_typeFoot.pt'
 pathDetectA4 = 'my models/best_footA4.pt'
 #************Test by Img*****************
-detect.detect_by_img('input/footA4 (21).jpg',pathDetectA4,crop=True)
+detect.detect_by_img('input/footA4 (49).jpg',pathDetectA4,crop=True)
 # detect.detect_by_img('input/type.jpeg',pathTypefoot,crop=False)
 #************Test by Video*****************
 # detect.detect_by_video(camera,pathTypefoot)
