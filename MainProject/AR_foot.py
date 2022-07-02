@@ -136,53 +136,6 @@ def set3Dleft(frame,sizeImg,location,angle=90):
     set3Dobj(mesh, angle=-angle, way=way)
     return imgResult
 
-# mesh = read3DObj("data/AR/supastarOBJ.obj","data/AR/cup.png")
-# set3Dobj(mesh, angle=90,way=(1, 0, 0),screenshot=True)
-# for i in range(45):
-#     way = (-1, 0, -1)
-#     set3Dobj(mesh, angle=i,way=way,screenshot=True)
-#     set3Dobj(mesh, angle=-i, way=way)
-#     frame = cv2.imread('output/shoes.png')
-#     cv2.imshow('preview-frame', frame)
-#     cv2.waitKey(1)
-
-# frame = cv2.imread('output/shoes.png')
-# cv2.imshow('preview-frame', frame)
-# cv2.waitKey(1)
-
-
-# def get_location_to_list(testlocation):
-#     list = []
-#     for i in range(len(testlocation.name)) :
-#         detail =[]
-#         detail.append(testlocation.name[i])
-#         detail.append(testlocation.xmin[i])
-#         detail.append(testlocation.ymin[i])
-#         detail.append(testlocation.xmax[i])
-#         detail.append(testlocation.ymax[i])
-#         list.append(detail)
-#     return list
-#
-# def find_xy_from_class(list) :
-#     index_name = []
-#     for i in range(len(list)):
-#         if list[i][0] == 'Top_Foot':
-#             print('index ',i,' ','Top_Foot')
-#             xmin = list[i][1]
-#             ymin = list[i][2]
-#             xmax = list[i][3]
-#             ymax = list[i][4]
-#             topfoot = True
-#         index_name.append(i)
-#
-#     print(len(index_name))
-#     lenname = len(index_name)
-#     if lenname>0 :
-#         return xmin, ymin, xmax, ymax
-#     else :
-#         xmin, ymin, xmax, ymax = 'none','none','none','none'
-#         return xmin, ymin, xmax, ymax
-
 def case3DObj(testlocation):
     classname = testlocation.drop_duplicates(subset=['name'])
     listname = []
@@ -208,11 +161,11 @@ def case3DObj(testlocation):
         if xminthumb > sum:
             anglethumb = thumbfoot.xmin[0] - sum
             caseObj = 1
-            anglethumb = anglethumb
+            anglethumb = anglethumb/2
         elif xminthumb < sum:
             anglethumb = sum - thumbfoot.xmin[0]
             caseObj = 2
-            anglethumb = anglethumb / 2
+            anglethumb = anglethumb/2
 
 
     elif listname.count('Left_Foot') > 0:

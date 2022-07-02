@@ -67,8 +67,8 @@ def detect_by_img(pathImg,pathModel,crop=False):
 
 
 def readAllfile():
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path='D:/GitHub/projectsonteen/my models/best_typeFoot.pt')
-    path = 'D:/GitHub/projectsonteen/yolov5-master/test/'
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='my models/best_AR.pt')
+    path = 'test/'
     dir = os.listdir(path)
     # print(path)
     # print(len(dir))
@@ -83,7 +83,7 @@ def readAllfile():
         print(results.pandas().xyxy[0])
         img =results.imgs[0]
 
-        cv2.imwrite("D:/GitHub/projectsonteen/yolov5-master/result test/" + i, img)
+        cv2.imwrite("result test/" + i, img)
 
 
 # take_a_photo(1)

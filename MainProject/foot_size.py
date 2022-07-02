@@ -66,13 +66,16 @@ def perspectiveA4(path):
         contourSS = cv2.drawContours(img.copy(), [approx], 0, (0, 255,0), 2)
 
         # print(approx)
-    cv2.imwrite('output/1perspectiveA4_3contour.jpg', contourSS)
+    cv2.imwrite('output/1perspectiveA4_4contour.jpg', contourSS)
 
     myPoints = np.array(approx, dtype=np.int32)
     # print('********************************')
     # print(myPoints)
     # print('********************************')
 
+    if len(myPoints) > 5  or len(myPoints)< 5 :
+        print('Not Found Point A4')
+        exit()
 
     # cv2.imshow('img', img)
     # cv2.waitKey(0)
